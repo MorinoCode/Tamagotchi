@@ -66,8 +66,7 @@ function updateStatus() {
 // Manage health
 function healthManage() {
   if (dogHealth > dogHealthMinimum) {
-    dogHealth--;  
-    updateStatus();  
+    dogHealth--;   
   } else {
     gameOver();
   }
@@ -78,7 +77,7 @@ function healthManage() {
 function tirednessManage() {
   if (dogTiredness < dogTirednessMax) {
     dogTiredness++;  
-    updateStatus();  
+    
   } else {
     gameOver();
   }
@@ -89,7 +88,7 @@ function tirednessManage() {
 function hungryManage() {
   if (dogHungry < dogHungryMax) {
     dogHungry++;  
-    updateStatus();  
+     
   } else {
     gameOver();
   }
@@ -100,7 +99,7 @@ function hungryManage() {
 function entertainmentManage() {
   if (dogEntertainment > dogEntertainmentMinimum) {
     dogEntertainment--;  
-    updateStatus();  
+    
   } else {
     gameOver();
   }
@@ -115,7 +114,7 @@ function thoughtsManage() {
       if (dogHealth < 50) {
         dogThoughts.src = './images/sad.png'; 
         dog.src = './images/sick.jpg';
-        dogMessage.innerText = `So, tired , Need some Rest!`;
+        dogMessage.innerText = `Ohh , Comeon Stingy, Push the Health Button !`;
       } else if (dogHungry > 50) {
         dogThoughts.src = './images/hungry.svg'; 
         dog.src = './images/hungry.jpg';
@@ -144,6 +143,8 @@ function gameOver() {
   gameOverPage.style.display = 'flex';
   gameOverPageMessage.innerText = ` You killed me!`;
   gamePage.style.display = 'none';
+  clearInterval(statusInterval);
+  clearInterval(saveInterval)
 }
 
 // Reset game logic
@@ -157,7 +158,7 @@ function resetGame() {
   atPark = false;
   dogName = '';
   nameInput.value = ' ';
-  updateStatus();
+  
   
 
   gameOverPage.style.display = 'none';
@@ -166,16 +167,21 @@ function resetGame() {
 }
 
 // Start game
+let statusInterval;
+let saveInterval;
 function startGame() {
- setInterval(()=>{
+ statusInterval = setInterval(()=>{
   healthManage();
   tirednessManage();
   hungryManage();
   entertainmentManage();
-  thoughtsManage();
+ },4000)
+
+ saveInterval = setInterval(()=>{
   updateStatus();
   saveGame();
- },4000)
+  thoughtsManage();
+ },100)
 }
 
 
@@ -219,9 +225,9 @@ startGameBtn.addEventListener('click', () => {
 sleepBtn.addEventListener("click", () => {
   if (dogTiredness == dogTirednessMinimum) {
     tirednessStatus.innerText = `Tiredness : ${dogTiredness}`;
-  } else if (dogTiredness < dogTirednessMax) {
+  } else  {
     dogTiredness--;  // Decrease tiredness
-    updateStatus();  // Update the status display
+    // Update the status display
   } 
 });
 
@@ -229,9 +235,9 @@ sleepBtn.addEventListener("click", () => {
 // Work button
 workBtn.addEventListener("click", () => {
   if (dogTiredness <= dogTirednessMax) {
-    tirednessStatus.innerText = `Tiredness : ${dogTiredness++}`;
-    moneyStatus.innerText = `Money : ${money += 5}`;
-    updateStatus()
+    dogTiredness++;  // First increment the tiredness
+    money += 5;
+   
   } 
 });
 
@@ -241,7 +247,7 @@ foodBtn.addEventListener("click", () => {
     hungryStatus.innerText = `Hunger : ${dogHungry}`;
   } else if (dogHungry < dogHungryMax) {
     dogHungry--; // Decrease hunger
-    updateStatus()
+   
   } 
 });
 
@@ -265,14 +271,15 @@ parkBtn.addEventListener("click", () => {
       setTimeout(() => {
         parkBtn.disabled = false;
         dog.src = './images/default.jpg'; 
-        thoughtsManage(); 
+        atPark = !atPark; 
       }, 10000); 
     } else { 
       dog.src = './images/default.jpg'; 
-      thoughtsManage(); 
+     
     }
   } else {
     parkBtn.innerText = 'Not now!!';
+    alert("Your dog is too tired, hungry, or sick to go to the park!");
     setTimeout(() => {
       parkBtn.innerText = 'Go to Park(increases Entertainment)';
     }, 2000);
@@ -284,7 +291,7 @@ healthBuy.addEventListener('click', () => {
   if (money >= 20) {
     dogHealth += 10;
     money -= 20;
-    updateStatus()
+   
     
   } else {
     healthBuy.innerText = 'Not enough Money';
@@ -299,7 +306,7 @@ hungryBuy.addEventListener('click', () => {
   if (money >= 10) {
     dogHungry -= 10;
     money -= 10;
-    updateStatus()
+   
   } else {
     hungryBuy.innerText = 'Not enough Money';
     setTimeout(() => {
@@ -313,7 +320,7 @@ entertainmentBuy.addEventListener('click', () => {
   if (money >= 10) {
     dogEntertainment += 10;
     money -= 10;
-    updateStatus()
+   
   } else {
     entertainmentBuy.innerText = 'Not enough Money';
     setTimeout(() => {
@@ -349,12 +356,12 @@ function loadGame() {
     atPark = savedState.atPark;
 
     // Update the display
-    updateStatus()
+  
 
     dog.src = atPark ? './images/park.jpg' : './images/default.jpg';
     startGame()
-    thoughtsManage(); 
+    
   }
 }
 
-
+// localStorage.clear()
