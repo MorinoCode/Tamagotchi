@@ -7,19 +7,106 @@
     <title>Tamagotchi</title>
   </head>
   <body>
+    <div class="startPage">
+      <h1>Welcome to Tamagotchi Game</h1>
+     <div class="startPage__choseName">
+      <p>Chose a name for your Dog :</p>
+      <input type="text" id="nameInput">
+      <button id="submitBtn">Submit</button>
+      
+     </div>
+      <div class="startPage__instructure">
+        <h2>
+          Game Instructions
+        </h2>
+        <p>
+          Welcome to the Dog Care Game! Your goal is to take care of your virtual dog by managing its needs, such as health, hunger, tiredness, and entertainment. Keep the dog happy and alive for as long as possible!
+        </p>
+        <h3>Dog Stats
+        </h3>
+        <p>
+          The game tracks four main stats for your dog: <br>
+          <b>Health:</b> Decreases over time. If it reaches 0, the dog will die. Keep it high by buying health boosts when needed. <br>
+          <b>Tiredness:</b> Increases as the dog works or spends time without rest. Let the dog sleep to lower tiredness. <br>
+          <b>Hunger:</b> Increases over time. Feed the dog or buy hunger boosts to keep it from getting too hungry. <br>
+          <b>Entertainment:</b> Decreases if the dog is bored. Bring your dog to the park to raise its entertainment level.
+        </p>
+        <h3>How to Play
+        </h3>
+        <p>
+          <b>Monitor the Stats:</b> Check the dogs health, tiredness, hunger, and entertainment levels on the screen. <br>
+          <b>Balance Activities and Care:</b> Keep these levels in balance by using the appropriate actions.
+        </p>
+        <h3>Buttons and Actions
+        </h3>
+        <p>
+          Each button has a unique function to help you care for your dog: <br>
+
+          <b>Sleep:</b>  Click to reduce the dogs tiredness by one point. If the tiredness level is at its minimum, this button has no effect. <br>
+          <b>Work:</b> Increases the dogs tiredness but earns 2 kr of money. Useful for earning currency, but use it sparingly as it increases tiredness. <br>
+          <b>Feed:</b> Decreases the dogs hunger level. Use it to keep hunger from reaching critical levels. <br>
+          <b>Park:</b> If the dogs hunger, health, and tiredness levels are favorable (all below 51), you can take it to the park to increase entertainment. The dog will stay at the park for a set period before returning.
+        </p>
+        <h3>Buying Items
+        </h3>
+        <p>
+          You can buy items to improve the dog's stats: <br>
+          <b>Health +10 (20 kr):</b> Adds 10 points to health but costs 20 kr. <br>
+          <b>Hunger -10 (10 kr):</b> Reduces hunger by 10 points, costing 10 kr. <br>
+          <b>Entertainment +10 (10 kr):</b> Adds 10 points to entertainment for 10 kr.
+        </p>
+    </div>
+    <div class="startPage__startGame">
+      <button id="startGameBtn">StartGame</button>
+    </div>
+  </div>
+
+  <div class="gameOverPage">
+    <p id="gameOverPage__message"> </p>
+    <button id="gameOverPage__btn">Restart Game</button>
+  </div>
+  
     <div class="container">
+
       <div class="container__dogStatus">
-        <p id="health"></p>
-        <p id="tiredness"></p>
-        <p id="hungry"></p>
+        <div class="container__dogStatus__money">
+          <p id="money"></p>
+        </div>
+        <div class="container__dogStatus_health">
+          <p id="health"></p>
+          <p id="tiredness"></p>
+          <p id="hungry"></p>
+          <p id="entertainment"></p>
+        </div>
       </div>
+    
+
       <div class="container__dog">
-        <img id="dog" src="./images/default.jpg" alt="dog default" />
+        <div class="container__dog__thoughts">
+          <img id="dogThoughts" src="./images/happy.svg" alt="dog info">
+        </div>
+        <div class="container__dog__pic">
+          <img id="dog" src="./images/default.jpg" alt="dog pic" />
+        </div>
+        <div class="container__dog__message">
+          <p id="dogMessage"></p>
+        </div>
       </div>
+
       <div class="container__buttons">
-        <button id="sleepBtn">Sova</button>
-        <button id="workBtn">Jobba</button>
-        <button id="foodBtn">Mata</button>
+        <div class="container__buttons__action">
+          <p>Keep me alive !</p>
+          <button id="sleepBtn">Sleep (Reduces Tiredness)</button>
+          <button id="workBtn">Work (Earns Money but Increases Tiredness)</button>
+          <button id="foodBtn">Feed (Reduces Hunger)</button>
+          <button id="parkBtn">Go to Park(Increases Entertainment)</button>
+        </div>
+        <div class="container__buttons__buy">
+          <p> Spend Some Money !</p>
+          <button id="healthPlus">Health +10 (20kr)</button>
+          <button id="hungry-10">Hunger -10 (10kr)</button>
+          <button id="entertainmentPlus">Entertainment +10 (10kr)</button>
+        </div>
       </div>
     </div>
 
