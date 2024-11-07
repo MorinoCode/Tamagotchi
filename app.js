@@ -17,11 +17,7 @@ const dogEntertainmentMax = 100;
 const dogEntertainmentMinimum = 0;
 
 let money = 0;
-
 let atPark = false;
-
-let dogName = '';
-const nameInput = document.querySelector('#nameInput');
 
 // StartPage and gamePage
 let startPage = document.querySelector('.startPage');
@@ -42,14 +38,14 @@ let entertainmentStatus = document.querySelector("#entertainment");
 let moneyStatus = document.querySelector('#money');
 
 // Buttons
-let submitName = document.querySelector('#submitBtn');
 let startGameBtn = document.querySelector('#startGameBtn');
 let gameOverBtn = document.querySelector('#gameOverPage__btn');
+//game buttons
 let sleepBtn = document.querySelector("#sleepBtn");
 let workBtn = document.querySelector("#workBtn");
 let foodBtn = document.querySelector("#foodBtn");
 let parkBtn = document.querySelector("#parkBtn");
-
+//buy buttons
 let healthBuy = document.querySelector('#healthPlus');
 let hungryBuy = document.querySelector('#hungry-10');
 let entertainmentBuy = document.querySelector('#entertainmentPlus');
@@ -116,7 +112,7 @@ function thoughtsManage() {
         dog.src = './images/sick.jpg';
         dogMessage.innerText = `Ohh , Comeon Stingy, Push the Health Button !`;
       } else if (dogHungry > 50) {
-        dogThoughts.src = './images/hungry.svg'; 
+        dogThoughts.src = './images/food.png'; 
         dog.src = './images/hungry.jpg';
         dogMessage.innerText = `I'm hungry Give me some Food`;
       } else if (dogTiredness > 50) {
@@ -138,33 +134,7 @@ function thoughtsManage() {
 
 
 
-// Handle the game over logic
-function gameOver() {
-  gameOverPage.style.display = 'flex';
-  gameOverPageMessage.innerText = ` You killed me!`;
-  gamePage.style.display = 'none';
-  clearInterval(statusInterval);
-  clearInterval(saveInterval)
-}
 
-// Reset game logic
-function resetGame() {
-  localStorage.clear();
-  dogHealth = 100;
-  dogTiredness = 0;
-  dogHungry = 0;
-  dogEntertainment = 100;
-  money = 0;
-  atPark = false;
-  dogName = '';
-  nameInput.value = ' ';
-  
-  
-
-  gameOverPage.style.display = 'none';
-  startPage.style.display = 'block';
-  gamePage.style.display = 'none';
-}
 
 // Start game
 let statusInterval;
@@ -182,6 +152,31 @@ function startGame() {
   saveGame();
   thoughtsManage();
  },100)
+}
+
+// Handle the game over logic
+function gameOver() {
+  gameOverPage.style.display = 'flex';
+  gameOverPageMessage.innerText = ` You killed me!`;
+  gamePage.style.display = 'none';
+  clearInterval(statusInterval);
+  clearInterval(saveInterval)
+}
+
+
+// Reset game logic
+function resetGame() {
+  localStorage.clear();
+  dogHealth = 100;
+  dogTiredness = 0;
+  dogHungry = 0;
+  dogEntertainment = 100;
+  money = 0;
+  atPark = false;
+  
+  gameOverPage.style.display = 'none';
+  startPage.style.display = 'block';
+  gamePage.style.display = 'none';
 }
 
 
@@ -206,12 +201,6 @@ window.addEventListener('load', () => {
   }
 });
 
-// Submit Name Button
-submitName.addEventListener('click', () => {
-  
-  dogName = nameInput.value.trim(); // Get the value and remove extra spaces
-  nameInput.value = 'Name Saved!!'; // Clear the input field
-});
 
 // Start Game Button
 startGameBtn.addEventListener('click', () => {
@@ -226,8 +215,7 @@ sleepBtn.addEventListener("click", () => {
   if (dogTiredness == dogTirednessMinimum) {
     tirednessStatus.innerText = `Tiredness : ${dogTiredness}`;
   } else  {
-    dogTiredness--;  // Decrease tiredness
-    // Update the status display
+    dogTiredness--;  
   } 
 });
 
@@ -235,9 +223,8 @@ sleepBtn.addEventListener("click", () => {
 // Work button
 workBtn.addEventListener("click", () => {
   if (dogTiredness <= dogTirednessMax) {
-    dogTiredness++;  // First increment the tiredness
-    money += 5;
-   
+    dogTiredness++;  
+    money += 5; 
   } 
 });
 
@@ -246,7 +233,7 @@ foodBtn.addEventListener("click", () => {
   if (dogHungry == dogHungryMinimum) {
     hungryStatus.innerText = `Hunger : ${dogHungry}`;
   } else if (dogHungry < dogHungryMax) {
-    dogHungry--; // Decrease hunger
+    dogHungry--; 
    
   } 
 });
@@ -262,7 +249,7 @@ parkBtn.addEventListener("click", () => {
       dogMessage.innerText = `I'm Happy!`;
       parkBtn.disabled = true; 
 
-      if (dogEntertainment < 95) {
+      if (dogEntertainment < 85) {
         dogEntertainment += 15; 
       } else {
         dogEntertainment = 100;
@@ -272,7 +259,7 @@ parkBtn.addEventListener("click", () => {
         parkBtn.disabled = false;
         dog.src = './images/default.jpg'; 
         atPark = !atPark; 
-      }, 10000); 
+      }, 8000); 
     } else { 
       dog.src = './images/default.jpg'; 
      
