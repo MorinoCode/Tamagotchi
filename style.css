@@ -44,13 +44,21 @@ body {
   .startPage__startGame{
     border: 2px solid black;
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
     padding: 2rem 0;
     button{
       padding: 0.5rem;
       background-color: wheat;
       border-radius: 1rem;
       cursor: pointer;
+    }
+    .startPage__startGame__dogInfo{
+      input{
+        padding: 1rem;
+        margin: 1em;
+      }
     }
   }
 
@@ -78,12 +86,17 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  .container__dogStatus__city{
+    margin: 1rem;
+    padding: .5rem;
+    border: 2px solid black;
+    font-size: 1rem;
+  }
   p {
     margin: 1rem;
     padding: .5rem;
     border: 2px solid black;
     font-size: 2rem;
-
    
   }
 }

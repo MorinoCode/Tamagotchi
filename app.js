@@ -29,6 +29,10 @@ let gameOverPageMessage = document.querySelector('#gameOverPage__message');
 let dog = document.querySelector("#dog");
 let dogThoughts = document.querySelector('#dogThoughts');
 let dogMessage = document.querySelector('#dogMessage');
+let dogNameInput = document.querySelector('#dogName')
+let cityNameInput = document.querySelector("#cityName")
+let dogName ='';
+let cityName='';
 
 // Status elements
 let healthStatus = document.querySelector("#health");
@@ -36,6 +40,7 @@ let tirednessStatus = document.querySelector("#tiredness");
 let hungryStatus = document.querySelector("#hungry");
 let entertainmentStatus = document.querySelector("#entertainment");
 let moneyStatus = document.querySelector('#money');
+let showCityName = document.querySelector('.container__dogStatus__city')
 
 // Buttons
 let startGameBtn = document.querySelector('#startGameBtn');
@@ -57,6 +62,7 @@ function updateStatus() {
   hungryStatus.innerText = `Hunger : ${dogHungry}`;
   entertainmentStatus.innerText = `Entertainment : ${dogEntertainment}`;
   moneyStatus.innerText = `Money : ${money} kr`;
+  
 }
 
 // Manage health
@@ -139,12 +145,15 @@ function thoughtsManage() {
 // Start game
 let statusInterval;
 let saveInterval;
+
 function startGame() {
+  
  statusInterval = setInterval(()=>{
   healthManage();
   tirednessManage();
   hungryManage();
   entertainmentManage();
+  getWeatherData()
  },4000)
 
  saveInterval = setInterval(()=>{
@@ -204,6 +213,8 @@ window.addEventListener('load', () => {
 
 // Start Game Button
 startGameBtn.addEventListener('click', () => {
+  dogName = dogNameInput.value
+  cityName = cityNameInput.value.toLowerCase()
   localStorage.setItem('hasPlayedBefore', true);
   startPage.style.display = 'none';
   gamePage.style.display = 'grid';
@@ -319,6 +330,8 @@ entertainmentBuy.addEventListener('click', () => {
 // Save game to localStorage
 function saveGame() {
   const gameState = {
+    dogName,
+    cityName,
     dogHealth,
     dogTiredness,
     dogHungry,
@@ -341,6 +354,8 @@ function loadGame() {
     dogEntertainment = savedState.dogEntertainment;
     money = savedState.money;
     atPark = savedState.atPark;
+    dogName= savedState.dogName;
+    cityName=savedState.cityName;
 
     // Update the display
   
@@ -351,4 +366,35 @@ function loadGame() {
   }
 }
 
-// localStorage.clear()
+localStorage.clear()
+
+// manage weather
+const date= new Date().getHours()
+const apiKey = "mEnSIDOH5FrS4D1cIEgZSG1TxitrxM1E"
+
+async function getWeatherData() {
+ 
+  try{
+      const respons = await fetch(`https://api.tomorrow.io/v4/weather/realtime?location=${cityName}&apikey=${apiKey}`);
+     
+      if(!respons.ok){
+          throw new Error('could not find information')
+      }
+      const info = await respons.json();
+      const temperature = info.data.values.temperature;
+      const time = info.data.time;
+      showCityName.innerHTML=`
+      <h3>${cityName} Weather information</h3>
+      <span>${(date>7 && date<12 )? 'Good Morning 🌞': (date>=12 && date<16)? 'Good Afternoon 🌒': (date>=16 && date<24) ? 'Good Night 🌑': "Good day 🌞"}</span> <br>
+      <span>Time: ${time}</span> <br>
+      <span>Temperature: ${temperature}</span> <br>
+      <span>It is ${temperature>25? "Hot" : (temperature>=15 && temperature<=25) ? "Good Weather" :  "Cold"} , ${dogName}</span> <br>
+      <img src=${temperature>25? "./images/Hot.png" : (temperature>=15 && temperature<=25) ? "./images/goodweather.png" :  "./images/coldWeather.png"} style="width : 50px">
+      `
+     
+  }
+  catch(err){
+      console.log(err);
+  }
+ 
+}
